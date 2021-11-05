@@ -269,6 +269,10 @@ func (ch *Channel) sendOpen(msg message) (err error) {
 	return
 }
 
+func (c *Channel) IsClosed() bool {
+	return (atomic.LoadInt32(&c.closed) == 1)
+}
+
 // Eventually called via the state machine from the connection's reader
 // goroutine, so assumes serialized access.
 func (ch *Channel) dispatch(msg message) {
